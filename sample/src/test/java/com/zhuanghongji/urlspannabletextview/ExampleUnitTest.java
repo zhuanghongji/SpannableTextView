@@ -1,4 +1,4 @@
-package com.zhuanghongji.spannabletextview.lib;
+package com.zhuanghongji.urlspannabletextview;
 
 import org.junit.Test;
 

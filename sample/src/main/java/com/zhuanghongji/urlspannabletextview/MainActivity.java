@@ -1,11 +1,11 @@
-package com.zhuanghongji.spannabletextview;
+package com.zhuanghongji.urlspannabletextview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.zhuanghongji.spannabletextview.lib.SpannableTextView;
+import com.zhuanghongji.urlspannabletextview.lib.UrlSpannableTextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
 				" <a href=\"https://www.google.com\">Google</a> " +
 				"you can click to test the click listener.";
 
-		SpannableTextView tv = findViewById(R.id.spannableTextView);
-		tv.setOnSpannableClickListener(new SpannableTextView.OnSpannableClickListener() {
+		UrlSpannableTextView tv = findViewById(R.id.spannableTextView);
+		tv.setOnSpannableClickListener(new UrlSpannableTextView.OnSpannableClickListener() {
 			@Override
 			public void onNormalClick(View view, String text) {
 				Log.i(TAG, "onNormalClick text = " + text);

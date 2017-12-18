@@ -1,4 +1,4 @@
-package com.zhuanghongji.spannabletextview.lib;
+package com.zhuanghongji.urlspannabletextview.lib;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -24,9 +24,9 @@ import java.util.regex.Pattern;
  * @version 1.0.0
  */
 
-public class SpannableTextView extends android.support.v7.widget.AppCompatTextView {
+public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTextView {
 
-	public static final String TAG = "SpannableTextView";
+	public static final String TAG = "UrlSpannableTextView";
 
 	private Context mContext;
 
@@ -41,7 +41,7 @@ public class SpannableTextView extends android.support.v7.widget.AppCompatTextVi
 	private int mUrlColor = Color.BLUE;
 
 	/**
-	 * the text you set to {@link SpannableTextView} by {@link #setSpannableText(String)}
+	 * the text you set to {@link UrlSpannableTextView} by {@link #setSpannableText(String)}
 	 */
 	private String mSpannableText;
 
@@ -49,15 +49,15 @@ public class SpannableTextView extends android.support.v7.widget.AppCompatTextVi
 
 	private OnSpannableClickListener mOnSpannableClickListener;
 
-	public SpannableTextView(Context context) {
+	public UrlSpannableTextView(Context context) {
 		this(context, null);
 	}
 
-	public SpannableTextView(Context context, @Nullable AttributeSet attrs) {
+	public UrlSpannableTextView(Context context, @Nullable AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public SpannableTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+	public UrlSpannableTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
 	}
