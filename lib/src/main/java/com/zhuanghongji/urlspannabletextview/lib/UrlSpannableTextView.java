@@ -1,6 +1,7 @@
 package com.zhuanghongji.urlspannabletextview.lib;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,14 +32,27 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 	private Context mContext;
 
 	/**
-	 * the default color of normal Strings
+	 * the color of normal text
 	 */
-	private int mNormalColor = Color.BLACK;
+	private int mNormalTextColor;
 
 	/**
-	 * the default color of url in "a' label
+	 * the color of value in {@code <a/>} label
 	 */
-	private int mUrlColor = Color.BLUE;
+	private int mUrlValueColor;
+
+	/**
+	 * the background color of the normal text or the value in {@code <a/>} label after click
+	 */
+	private int mHighLightColor;
+
+	private boolean mEnableHighLightOfNormalText;
+
+	private boolean mEnableHighLightOfUrlValue;
+
+	private boolean mEnableUnderLineOfNormalText;
+
+	private boolean mEnableUnderLineOfUrlValue;
 
 	/**
 	 * the text you set to {@link UrlSpannableTextView} by {@link #setSpannableText(String)}
@@ -60,6 +74,34 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 	public UrlSpannableTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
+		initTypedArray(mContext, attrs);
+
+		setSpannableText(mSpannableText);
+		setHighlightColor(mHighLightColor);
+	}
+
+	private void initTypedArray(Context context, @Nullable AttributeSet attrs) {
+		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UrlSpannableTextView);
+
+		mSpannableText = typedArray.getString(R.styleable.UrlSpannableTextView_spannableText);
+
+		mNormalTextColor = typedArray.getColor(
+				R.styleable.UrlSpannableTextView_normalTextColor, Color.BLACK);
+		mUrlValueColor = typedArray.getColor(
+				R.styleable.UrlSpannableTextView_urlValueColor, Color.BLUE);
+
+		mHighLightColor = typedArray.getColor(
+				R.styleable.UrlSpannableTextView_highLightColor, Color.TRANSPARENT);
+		mEnableHighLightOfNormalText = typedArray.getBoolean(
+				R.styleable.UrlSpannableTextView_enableHighLightOfNormalText, false);
+		mEnableHighLightOfUrlValue = typedArray.getBoolean(
+				R.styleable.UrlSpannableTextView_enableHighLightOfUrlValue, false);
+
+		mEnableUnderLineOfNormalText = typedArray.getBoolean(
+				R.styleable.UrlSpannableTextView_enableUnderLineOfNormalText, false);
+		mEnableUnderLineOfUrlValue= typedArray.getBoolean(
+				R.styleable.UrlSpannableTextView_enableUnderLineOfUrlValue, false);
+		typedArray.recycle();
 	}
 
 
@@ -71,7 +113,6 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 		mSpannableText = spannableText;
 		mSpannableStringBuilder = genSpannableStringBuilder(spannableText);
 		setText(mSpannableStringBuilder);
-		setHighlightColor(Color.TRANSPARENT);
 		setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
@@ -91,7 +132,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 		}
 
 		while (isUrlText(spannableText)) {
-			// append normal string
+			// append normal text
 			String a = "<a";
 			int firstIndex = spannableText.indexOf(a);
 			String normalText = spannableText.substring(0, firstIndex);
@@ -99,7 +140,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 				builder.append(genNormalSpannableString(normalText));
 			}
 
-			// append url string
+			// append url value
 			a = "</a>";
 			int secondIndex = spannableText.indexOf(a) + a.length();
 			String urlText = spannableText.substring(firstIndex, secondIndex);
@@ -110,7 +151,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 			spannableText = spannableText.substring(secondIndex, spannableText.length());
 		}
 
-		// the rest normal String
+		// the rest normal text
 		if (!TextUtils.isEmpty(spannableText)) {
 			builder.append(genNormalSpannableString(spannableText));
 		}
@@ -124,8 +165,8 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 			@Override
 			public void updateDrawState(TextPaint ds) {
 				super.updateDrawState(ds);
-				ds.setColor(mNormalColor);
-				ds.setUnderlineText(false);
+				ds.setColor(mEnableHighLightOfNormalText ? mNormalTextColor : Color.BLACK);
+				ds.setUnderlineText(mEnableUnderLineOfNormalText);
 			}
 
 			@Override
@@ -147,8 +188,8 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 			@Override
 			public void updateDrawState(TextPaint ds) {
 				super.updateDrawState(ds);
-				ds.setColor(mUrlColor);
-				ds.setUnderlineText(true);
+				ds.setColor(mEnableHighLightOfUrlValue ? mUrlValueColor : Color.BLUE);
+				ds.setUnderlineText(mEnableUnderLineOfUrlValue);
 			}
 
 			@Override
@@ -188,9 +229,9 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 	}
 
 	/**
-	 * assert the spannableString contain <a> label or not
+	 * assert the spannableString contain {@code <a>} label or not
 	 * @param spannableText the target to assert
-	 * @return {@code true} contain ；{@code false} not contain
+	 * @return {@code true} contain ；{@code false} or not
 	 */
 	private boolean isUrlText (String spannableText){
 		if (TextUtils.isEmpty(spannableText)) {
@@ -202,12 +243,84 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 		return matcher.matches();
 	}
 
+	public int getNormalTextColor() {
+		return mNormalTextColor;
+	}
+
+	public void setNormalTextColor(int normalTextColor) {
+		mNormalTextColor = normalTextColor;
+	}
+
+	public int getUrlValueColor() {
+		return mUrlValueColor;
+	}
+
+	public void setUrlValueColor(int urlValueColor) {
+		mUrlValueColor = urlValueColor;
+	}
+
+	public int getHighLightColor() {
+		return mHighLightColor;
+	}
+
+	public void setHighLightColor(int highLightColor) {
+		mHighLightColor = highLightColor;
+	}
+
+	public boolean isEnableHighLightOfNormalText() {
+		return mEnableHighLightOfNormalText;
+	}
+
+	public void setEnableHighLightOfNormalText(boolean enableHighLightOfNormalText) {
+		mEnableHighLightOfNormalText = enableHighLightOfNormalText;
+	}
+
+	public boolean isEnableHighLightOfUrlValue() {
+		return mEnableHighLightOfUrlValue;
+	}
+
+	public void setEnableHighLightOfUrlValue(boolean enableHighLightOfUrlValue) {
+		mEnableHighLightOfUrlValue = enableHighLightOfUrlValue;
+	}
+
+	public boolean isEnableUnderLineOfNormalText() {
+		return mEnableUnderLineOfNormalText;
+	}
+
+	public void setEnableUnderLineOfNormalText(boolean enableUnderLineOfNormalText) {
+		mEnableUnderLineOfNormalText = enableUnderLineOfNormalText;
+	}
+
+	public boolean isEnableUnderLineOfUrlValue() {
+		return mEnableUnderLineOfUrlValue;
+	}
+
+	public void setEnableUnderLineOfUrlValue(boolean enableUnderLineOfUrlValue) {
+		mEnableUnderLineOfUrlValue = enableUnderLineOfUrlValue;
+	}
+
 	public void setOnSpannableClickListener(OnSpannableClickListener onSpannableClickListener) {
 		mOnSpannableClickListener = onSpannableClickListener;
 	}
 
+	/**
+	 * Listener used to handle click events.
+	 */
 	public interface OnSpannableClickListener {
-		void onNormalClick(View view, String text);
-		void onUrlClick(View view, String text, String url);
+
+		/**
+		 * will be called if user click normal text
+		 * @param widget
+		 * @param text the normal text
+		 */
+		void onNormalClick(View widget, String text);
+
+		/**
+		 * will be called if user click the value of {@code <a/>} label
+		 * @param widget
+		 * @param value the value of {@code <a/>} label
+		 * @param url the value of href attr
+		 */
+		void onUrlClick(View widget, String value, String url);
 	}
 }
