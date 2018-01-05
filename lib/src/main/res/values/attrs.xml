@@ -5,10 +5,7 @@
 
         <attr name="normalTextColor" format="color"/>
         <attr name="urlValueColor" format="color"/>
-
         <attr name="highLightColor" format="color"/>
-        <attr name="enableHighLightOfNormalText" format="boolean"/>
-        <attr name="enableHighLightOfUrlValue" format="boolean"/>
 
         <attr name="enableUnderLineOfNormalText" format="boolean"/>
         <attr name="enableUnderLineOfUrlValue" format="boolean"/>

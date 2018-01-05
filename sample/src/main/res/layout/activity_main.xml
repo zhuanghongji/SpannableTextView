@@ -17,8 +17,6 @@
         app:normalTextColor="@android:color/holo_blue_bright"
         app:urlValueColor="@android:color/holo_blue_dark"
         app:highLightColor="@android:color/holo_red_light"
-        app:enableHighLightOfNormalText="false"
-        app:enableHighLightOfUrlValue="false"
         app:enableUnderLineOfNormalText="true"
         app:enableUnderLineOfUrlValue="true"/>
 

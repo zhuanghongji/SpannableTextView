@@ -20,16 +20,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 2017/12/17
+ * a simple custom TextView on Android for dealing the click event of url <br>
+ * ( such as {@code <a href='https://www.google.com'>Google<a/>} )
  * @author zhuanghongji
  * @version 1.0.0
  */
 
 public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTextView {
-
-	public static final String TAG = "UrlSpannableTextView";
-
-	private Context mContext;
 
 	/**
 	 * the color of normal text
@@ -45,10 +42,6 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 	 * the background color of the normal text or the value in {@code <a/>} label after click
 	 */
 	private int mHighLightColor;
-
-	private boolean mEnableHighLightOfNormalText;
-
-	private boolean mEnableHighLightOfUrlValue;
 
 	private boolean mEnableUnderLineOfNormalText;
 
@@ -73,8 +66,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 
 	public UrlSpannableTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		mContext = context;
-		initTypedArray(mContext, attrs);
+		initTypedArray(context, attrs);
 
 		setSpannableText(mSpannableText);
 		setHighlightColor(mHighLightColor);
@@ -89,13 +81,8 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 				R.styleable.UrlSpannableTextView_normalTextColor, Color.BLACK);
 		mUrlValueColor = typedArray.getColor(
 				R.styleable.UrlSpannableTextView_urlValueColor, Color.BLUE);
-
 		mHighLightColor = typedArray.getColor(
 				R.styleable.UrlSpannableTextView_highLightColor, Color.TRANSPARENT);
-		mEnableHighLightOfNormalText = typedArray.getBoolean(
-				R.styleable.UrlSpannableTextView_enableHighLightOfNormalText, false);
-		mEnableHighLightOfUrlValue = typedArray.getBoolean(
-				R.styleable.UrlSpannableTextView_enableHighLightOfUrlValue, false);
 
 		mEnableUnderLineOfNormalText = typedArray.getBoolean(
 				R.styleable.UrlSpannableTextView_enableUnderLineOfNormalText, false);
@@ -165,7 +152,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 			@Override
 			public void updateDrawState(TextPaint ds) {
 				super.updateDrawState(ds);
-				ds.setColor(mEnableHighLightOfNormalText ? mNormalTextColor : Color.BLACK);
+				ds.setColor(mNormalTextColor);
 				ds.setUnderlineText(mEnableUnderLineOfNormalText);
 			}
 
@@ -188,7 +175,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 			@Override
 			public void updateDrawState(TextPaint ds) {
 				super.updateDrawState(ds);
-				ds.setColor(mEnableHighLightOfUrlValue ? mUrlValueColor : Color.BLUE);
+				ds.setColor(mUrlValueColor);
 				ds.setUnderlineText(mEnableUnderLineOfUrlValue);
 			}
 
@@ -265,22 +252,6 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 
 	public void setHighLightColor(int highLightColor) {
 		mHighLightColor = highLightColor;
-	}
-
-	public boolean isEnableHighLightOfNormalText() {
-		return mEnableHighLightOfNormalText;
-	}
-
-	public void setEnableHighLightOfNormalText(boolean enableHighLightOfNormalText) {
-		mEnableHighLightOfNormalText = enableHighLightOfNormalText;
-	}
-
-	public boolean isEnableHighLightOfUrlValue() {
-		return mEnableHighLightOfUrlValue;
-	}
-
-	public void setEnableHighLightOfUrlValue(boolean enableHighLightOfUrlValue) {
-		mEnableHighLightOfUrlValue = enableHighLightOfUrlValue;
 	}
 
 	public boolean isEnableUnderLineOfNormalText() {
