@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="UrlSpannableTextView">
-        <attr name="spannableText" format="string"/>
-
         <attr name="normalTextColor" format="color"/>
         <attr name="urlValueColor" format="color"/>
         <attr name="highLightColor" format="color"/>

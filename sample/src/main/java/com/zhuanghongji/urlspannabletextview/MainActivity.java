@@ -1,14 +1,15 @@
 package com.zhuanghongji.urlspannabletextview;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.zhuanghongji.urlspannabletextview.lib.UrlSpannableTextView;
 
@@ -16,11 +17,13 @@ public class MainActivity extends AppCompatActivity {
 
 	public static final String TAG = "MainActivity";
 
-	public static final String TEST_TEXT = "there are <b>two</b> a label in the right: " +
-			" <a href=\"http://www.baidu.com\">BaiDu</a> " +
-			"and" +
-			" <a href=\"https://www.google.com\">Google</a> " +
-			"you can click to test the click listener.";
+	private Context mContext;
+
+	public static final String TEST_TEXT = "there are <b>two</b> a label in the right:"
+			+ " <a href=\"http://www.baidu.com\">BaiDu</a>"
+			+ " and"
+			+ " <a href=\"https://www.google.com\">Google</a>"
+			+ " you can click to test the click listener.";
 
 	private UrlSpannableTextView tvUrlSpannable;
 
@@ -42,15 +45,19 @@ public class MainActivity extends AppCompatActivity {
 		initView();
 		initEvent();
 
+		mContext = this;
+
 		tvUrlSpannable.setOnSpannableClickListener(new UrlSpannableTextView.OnSpannableClickListener() {
 			@Override
 			public void onNormalClick(View view, String text) {
-				Log.i(TAG, "onNormalClick text = " + text);
+				Toast.makeText(mContext, "onNormalClick text = " + text,
+						Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
-			public void onUrlClick(View view, String text, String url) {
-				Log.i(TAG, "onUrlClick text = " + text + ", url = " + url);
+			public void onUrlClick(View view, String value, String url) {
+				Toast.makeText(mContext, "onUrlClick value = " + value + ", url = " + url,
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 		tvUrlSpannable.setSpannableText(TEST_TEXT);
@@ -68,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 		btnSetUrlValueColor.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				tvUrlSpannable.setNormalTextColor(getColorByEditText(etUrlValueColor));
+				tvUrlSpannable.setUrlValueColor(getColorByEditText(etUrlValueColor));
 				tvUrlSpannable.setSpannableText(TEST_TEXT);
 			}
 		});
@@ -76,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 		btnSetHighLightColor.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				tvUrlSpannable.setNormalTextColor(getColorByEditText(etHighLightColor));
+				tvUrlSpannable.setHighlightColor(getColorByEditText(etHighLightColor));
 				tvUrlSpannable.setSpannableText(TEST_TEXT);
 			}
 		});

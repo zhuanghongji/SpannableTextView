@@ -75,8 +75,6 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 	private void initTypedArray(Context context, @Nullable AttributeSet attrs) {
 		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UrlSpannableTextView);
 
-		mSpannableText = typedArray.getString(R.styleable.UrlSpannableTextView_spannableText);
-
 		mNormalTextColor = typedArray.getColor(
 				R.styleable.UrlSpannableTextView_normalTextColor, Color.BLACK);
 		mUrlValueColor = typedArray.getColor(
@@ -169,8 +167,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 	private SpannableString genUrlSpannableString(String urlText) {
 		final String href = getHrefFromALabel(urlText);
 		final String value = getValueFromALabel(urlText);
-		final Spanned spanned = Html.fromHtml(urlText);
-		SpannableString result = new SpannableString(spanned);
+		SpannableString result = new SpannableString(value);
 		result.setSpan(new ClickableSpan() {
 			@Override
 			public void updateDrawState(TextPaint ds) {
@@ -185,7 +182,7 @@ public class UrlSpannableTextView extends android.support.v7.widget.AppCompatTex
 					mOnSpannableClickListener.onUrlClick(widget, value, href);
 				}
 			}
-		}, 0, spanned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}, 0, result.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 		return result;
 	}
 

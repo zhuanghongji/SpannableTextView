@@ -12,13 +12,7 @@
     <com.zhuanghongji.urlspannabletextview.lib.UrlSpannableTextView
         android:id="@+id/spannableTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:spannableText="123"
-        app:normalTextColor="@android:color/holo_blue_bright"
-        app:urlValueColor="@android:color/holo_blue_dark"
-        app:highLightColor="@android:color/holo_red_light"
-        app:enableUnderLineOfNormalText="true"
-        app:enableUnderLineOfUrlValue="true"/>
+        android:layout_height="wrap_content"/>
 
     <View
         android:layout_width="wrap_content"
@@ -31,12 +25,14 @@
             android:id="@+id/et_normal_text_color"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:hint="#000000"/>
+            android:text="#FF0000"
+            android:hint="#FF0000"/>
         <Button
             android:id="@+id/btn_set_normal_text_color"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="set normalTextColor"/>
+            android:textAllCaps="false"
+            android:text="setNormalTextColor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -46,12 +42,14 @@
             android:id="@+id/et_url_value_color"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:hint="#0000FF"/>
+            android:text="#00FF00"
+            android:hint="#00FF00"/>
         <Button
             android:id="@+id/btn_set_url_value_color"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="set normalTextColor"/>
+            android:textAllCaps="false"
+            android:text="setUrlValueColor"/>
     </LinearLayout>
 
     <LinearLayout
@@ -61,23 +59,25 @@
             android:id="@+id/et_high_light_color"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:text="#0000FF"
             android:hint="#0000FF"/>
         <Button
             android:id="@+id/btn_set_high_light_color"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="set highLightColor"/>
+            android:textAllCaps="false"
+            android:text="setHighlightColor"/>
     </LinearLayout>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/sc_under_line_of_normal_text"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="enableUnderLineOfNormalText  "/>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/sc_under_line_of_url_value"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="enableUnderLineOfUrlValue  "/>
 </LinearLayout>
