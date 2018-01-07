@@ -1,4 +1,4 @@
-# SpannableTextView
+# UrlSpannableTextView
 a simple custom TextView for dealing with url click event
 
 # Sample
